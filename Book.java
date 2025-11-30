@@ -4,8 +4,6 @@ public class Book extends LibraryItem {
     String genre;
     String publisher;
 
-    //double borrowProbability=0.05;
-
     @Override    
     int getLoanPeriodDays() {
         return 14;

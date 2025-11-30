@@ -7,14 +7,11 @@ abstract class LibraryItem {
     boolean borrowed;
     User borrower;
 
-    //check if logic correct - for this and separate ones for inherited classes
-    double returnProbablity=0.02;
-
     //for each subclass
     abstract int getLoanPeriodDays();
 
     //returns num of days item is overdue -> if negative, item can still be out for that many days
-    public int daysOverdue(LocalDate currentDate) throws Exception {
+    public static int daysOverdue(LocalDate currentDate) throws Exception {
         if(!borrowed || borrowDate==null) {
             throw new Exception("Not valid ask");
         }

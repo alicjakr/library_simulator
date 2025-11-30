@@ -6,8 +6,6 @@ public class Film extends LibraryItem {
     int runtime;
     double ratingEntries;
 
-    //double borrowProbability=0.05;
-
     @Override
     int getLoanPeriodDays() {
         return 2;
