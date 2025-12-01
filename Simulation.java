@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Random;
 
 public class Simulation {
-    //on time users always return item on last day of loan period if item not already returned
-    //loan period doesn't count the day of borrowing but counts the last day
     Library library;
     Random random;
 
@@ -38,34 +36,35 @@ public class Simulation {
 
     //try borrowing
     private void tryBorrowUser(User user, LocalDate date) {
-        Random r=new Random();
-        Random r2=new Random();
         //for book
-        if(r.nextDouble()<BOOK_PROBABILITY && user.canBorrowBook()) {
+        if(random.nextDouble() < BOOK_PROBABILITY && user.canBorrowBook()) {
             //find random available
             Book bookToBorrow=findAvailableBook();
             //borrow
-            assert bookToBorrow!=null;
-            library.borrowItem(user, bookToBorrow, date);
+            if(bookToBorrow!=null) {
+                library.borrowItem(user, bookToBorrow, date);
+            }
         }
         //for journal
-        if(r.nextDouble()<JOURNAL_PROBABILITY && user.canBorrowJournal()) {
+        if(random.nextDouble()<JOURNAL_PROBABILITY && user.canBorrowJournal()) {
             Journal journalToBorrow=findAvailableJournal();
-            assert journalToBorrow!=null;
-            library.borrowItem(user, journalToBorrow, date);
+            if(journalToBorrow!=null) {
+                library.borrowItem(user, journalToBorrow, date);
+            }
         }
         //for film
-        if(r.nextDouble()<FILM_PROBABILITY && user.canBorrowFilm()) {
+        if(random.nextDouble()<FILM_PROBABILITY && user.canBorrowFilm()) {
             Film filmToBorrow=findAvailableFilm();
-            assert filmToBorrow!=null;
-            library.borrowItem(user, filmToBorrow, date);
+            if(filmToBorrow!=null) {
+                library.borrowItem(user, filmToBorrow, date);
+            }
         }
     }
 
     private Book findAvailableBook() {
         List<Book> availableBooks=new ArrayList<>();
         for(Book book : library.books) {
-            if(!book.borrowed) {
+            if (!book.borrowed) {
                 availableBooks.add(book);
             }
         }
@@ -84,7 +83,7 @@ public class Simulation {
                 availableJournals.add(journal);
             }
         }
-        //return null if no available books
+        //return null if no available journals
         if(availableJournals.isEmpty()) {
             return null;
         }
@@ -99,7 +98,7 @@ public class Simulation {
                 availableFilms.add(film);
             }
         }
-        //return null if no available books
+        //return null if no available films
         if(availableFilms.isEmpty()) {
             return null;
         }
@@ -109,8 +108,7 @@ public class Simulation {
 
     //try returning
     private void tryReturnUser(User user, LocalDate date) throws Exception {
-        Random r=new Random();
-        if(r.nextDouble()<RETURN_PROBABILITY) {
+        if(random.nextDouble()<RETURN_PROBABILITY) {
             //pick random item
             LibraryItem libraryItem=getRandomBorrowedItem(user);
             if(libraryItem!=null) {
@@ -133,7 +131,7 @@ public class Simulation {
         return borrowedItems.get(randomIndex);
     }
 
-    //check due date
+    //check due date - on time users always return item on last day of loan period if item not already returned
     private void checkReliableUserReturns(User user, LocalDate date) throws Exception {
         List<LibraryItem> borrowedItems=new ArrayList<>();
         borrowedItems.addAll(user.borrowedBooks);
@@ -141,7 +139,7 @@ public class Simulation {
         borrowedItems.addAll(user.borrowedFilms);
         if(user.returnsOnTime) {
             for(LibraryItem item : borrowedItems) {
-                if(LibraryItem.daysOverdue(date)==0) {
+                if(item.daysOverdue(date)==0) {
                     library.returnItem(user, item, date);
                 }
             }

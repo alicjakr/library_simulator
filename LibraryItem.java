@@ -11,7 +11,7 @@ abstract class LibraryItem {
     abstract int getLoanPeriodDays();
 
     //returns num of days item is overdue -> if negative, item can still be out for that many days
-    public static int daysOverdue(LocalDate currentDate) throws Exception {
+    public int daysOverdue(LocalDate currentDate) throws Exception {
         if(!borrowed || borrowDate==null) {
             throw new Exception("Not valid ask");
         }

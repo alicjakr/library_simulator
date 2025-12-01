@@ -23,14 +23,9 @@ public class Library {
         }
 
         Random r=new Random();
-        //assign returnig the book on time
+        //assign returning the book on time
         for(User user : users) {
-            if(r.nextDouble()<0.67) {
-                user.returnsOnTime=true;
-            } else {
-                user.returnsOnTime=false;
-            }
-
+            user.returnsOnTime= r.nextDouble() < 0.67;
         }
     }
 
@@ -52,10 +47,10 @@ public class Library {
 
                 Book book=new Book();
                 book.libraryID=bookID++;
-                book.title=valuesbook[0];
-                book.author=valuesbook[1];
-                book.genre=valuesbook[2];
-                book.publisher=valuesbook[4];
+                book.title=valuesbook.length>0 ? valuesbook[0] : "";
+                book.author=valuesbook.length>1 ? valuesbook[1] : "";
+                book.genre=valuesbook.length>2 ? valuesbook[2] : "";
+                book.publisher=valuesbook.length>4 ? valuesbook[4] : "";
 
                 this.books.add(book);
             }
@@ -78,11 +73,11 @@ public class Library {
 
                 Journal journal=new Journal();
                 journal.libraryID=journalID++;
-                journal.title=valuesjournal[0];
-                journal.eISSN=valuesjournal[3];
-                journal.publisher=valuesjournal[4];
-                journal.latestIssue=valuesjournal[6];
-                journal.journalURL=valuesjournal[12];
+                journal.title=valuesjournal.length>0 ? valuesjournal[0] : "";
+                journal.eISSN=valuesjournal.length>3 ? valuesjournal[3] : "";
+                journal.publisher=valuesjournal.length>4 ? valuesjournal[4] : "";
+                journal.latestIssue=valuesjournal.length>6 ? valuesjournal[6] : "";
+                journal.journalURL=valuesjournal.length>12 ? valuesjournal[12] : "";
 
                 this.journals.add(journal);
             }
@@ -101,16 +96,43 @@ public class Library {
                     continue;
                 }
 
-                String[] valuesmovies=lineee.split(DELIMITER);
+                //handle quotes
+                List<String> valuesmovies=new ArrayList<>();
+                boolean quotes=false;
+                StringBuilder builder=new StringBuilder();
+                for(int i=0; i<lineee.length(); i++) {
+                    char c=lineee.charAt(i);
+                    if(c=='"') {
+                        quotes=!quotes;
+                    } else if(c==';' && !quotes) {
+                        valuesmovies.add(builder.toString());
+                        builder=new StringBuilder();
+                    } else {
+                        builder.append(c);
+                    }
+                }
+                valuesmovies.add(builder.toString());
 
                 Film film=new Film();
                 film.libraryID=filmID++;
-                film.title=valuesmovies[1];
-                film.genre=valuesmovies[2];
-                film.director=valuesmovies[4];
-                film.year=Integer.parseInt(valuesmovies[6]);
-                film.runtime=Integer.parseInt(valuesmovies[7]);
-                film.ratingEntries=Double.parseDouble(valuesmovies[8]);
+                film.title=valuesmovies.size()>1 ? valuesmovies.get(1) : "";
+                film.genre=valuesmovies.size()>2 ? valuesmovies.get(2) : "";
+                film.director=valuesmovies.size()>4 ? valuesmovies.get(4) : "";
+                if(valuesmovies.size()>6 && !valuesmovies.get(6).isEmpty()) {
+                    film.year = Integer.parseInt(valuesmovies.get(6).trim());
+                } else {
+                    film.year = 0;  // Default for missing year
+                }
+                if(valuesmovies.size()>7 && !valuesmovies.get(7).isEmpty()) {
+                    film.runtime=Integer.parseInt(valuesmovies.get(7).trim());
+                } else {
+                    film.runtime = 0;
+                }
+                if(valuesmovies.size()>8 && !valuesmovies.get(8).isEmpty()) {
+                    film.ratingEntries=Double.parseDouble(valuesmovies.get(8).trim());
+                } else {
+                    film.ratingEntries = 0.0;
+                }
 
                 this.films.add(film);
             }
