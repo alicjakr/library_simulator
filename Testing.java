@@ -24,11 +24,7 @@ public class Testing {
         Book book=new Book();
         LocalDate borrowDate=LocalDate.now();
         library.borrowItem(student,book,borrowDate);
-        if(student.returnsOnTime) {
-            assert(
-        } else {
-
-        }
+        //add tests with assert, same for the returning
     }
 
     @Test
