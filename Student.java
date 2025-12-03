@@ -5,25 +5,16 @@ public class Student extends User {
 
     @Override
     public boolean canBorrowBook() {
-        if(borrowedBooks.size()>=maxBooks) {
-            return false;
-        }
-        return true;
+        return borrowedBooks.size() < maxBooks;
     }
 
     @Override
     public boolean canBorrowJournal() {
-        if(borrowedJournals.size()>=maxJournals) {
-            return false;
-        }
-        return true;
+        return borrowedJournals.size() < maxJournals;
     }
 
     @Override
     public boolean canBorrowFilm() {
-        if(borrowedFilms.size()>=maxFilms) {
-            return false;
-        }
-        return true;
+        return borrowedFilms.size() < maxFilms;
     }
 }

@@ -7,7 +7,6 @@ public class Simulation {
     Library library;
     Random random;
 
-    //double borrowProbability=0.05;
     final double BOOK_PROBABILITY=0.05;
     final double JOURNAL_PROBABILITY=0.08;
     final double FILM_PROBABILITY=0.05;

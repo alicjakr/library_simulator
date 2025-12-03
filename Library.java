@@ -97,22 +97,7 @@ public class Library {
                 }
 
                 //handle quotes
-                List<String> valuesmovies=new ArrayList<>();
-                boolean quotes=false;
-                StringBuilder builder=new StringBuilder();
-                for(int i=0; i<lineee.length(); i++) {
-                    char c=lineee.charAt(i);
-                    if(c=='"') {
-                        quotes=!quotes;
-                    } else if(c==';' && !quotes) {
-                        valuesmovies.add(builder.toString());
-                        builder=new StringBuilder();
-                    } else {
-                        builder.append(c);
-                    }
-                }
-                valuesmovies.add(builder.toString());
-
+                List<String> valuesmovies = getStrings(lineee);
                 Film film=new Film();
                 film.libraryID=filmID++;
                 film.title=valuesmovies.size()>1 ? valuesmovies.get(1) : "";
@@ -139,6 +124,25 @@ public class Library {
         } catch(Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static List<String> getStrings(String lineee) {
+        List<String> valuesmovies=new ArrayList<>();
+        boolean quotes=false;
+        StringBuilder builder=new StringBuilder();
+        for(int i = 0; i< lineee.length(); i++) {
+            char c= lineee.charAt(i);
+            if(c=='"') {
+                quotes=!quotes;
+            } else if(c==';' && !quotes) {
+                valuesmovies.add(builder.toString());
+                builder=new StringBuilder();
+            } else {
+                builder.append(c);
+            }
+        }
+        valuesmovies.add(builder.toString());
+        return valuesmovies;
     }
 
     //allows to borrow any item on any day

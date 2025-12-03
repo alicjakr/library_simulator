@@ -18,34 +18,33 @@ public class Main {
         long executionTime=(endTime-startTime)/1000000;
         System.out.println("Simulating the library for a year takes "+executionTime+"ms\n");
         printStatistics(library);
-
     }
 
     private static void printStatistics(Library library) {
-        int currentbooks=library.books.size();
-        int currentjournals=library.journals.size();
-        int currentfilms=library.films.size();
+        int currentBooks=library.books.size();
+        int currentJournals=library.journals.size();
+        int currentFilms=library.films.size();
 
         for(Book book:library.books) {
             if(book.borrowed) {
-                currentbooks++;
+                currentBooks++;
             }
         }
         for(Journal journal:library.journals) {
             if(journal.borrowed) {
-                currentjournals++;
+                currentJournals++;
             }
         }
         for(Film film:library.films) {
             if(film.borrowed) {
-                currentfilms++;
+                currentFilms++;
             }
         }
 
         System.out.println("Final statistics:");
-        System.out.println("Books borrowed: "+currentbooks);
-        System.out.println("Journals borrowed: "+currentjournals);
-        System.out.println("Films borrowed: "+currentfilms);
+        System.out.println("Books borrowed: "+currentBooks);
+        System.out.println("Journals borrowed: "+currentJournals);
+        System.out.println("Films borrowed: "+currentFilms);
 
     }
 }
