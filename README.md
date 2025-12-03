@@ -14,14 +14,6 @@ Java program that simulates a library working for a year.
 - 'Main.java' - simulation is ran in the main method
 - 'Testing.java' - class for testing methods
 
-## Compiling and running tests
-### Compile main source files
-javac -d bin src/*.java
-### Compile test files
-javac -cp "lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar:bin" -d bin test/*.java
-### Run tests
-java -cp "lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar:bin" org.junit.runner.JUnitCore TestClass
-
 ##Author
 Alicja Krupczynska
 Object Oriented Programming - task 8
