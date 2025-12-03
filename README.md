@@ -1,6 +1,6 @@
 # Library Simulation Program
 
-## Overwiev
+## Overview
 Java program that simulates a library working for a year.
 
 ## Files
